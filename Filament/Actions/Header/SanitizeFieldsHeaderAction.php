@@ -47,7 +47,7 @@ class SanitizeFieldsHeaderAction extends Action
                     }
                 }
                 Notification::make()
-                    ->title(''.$c.' record sanitized')
+                    ->title(trans_choice('xot::actions.sanitize-fields-header.notification', $c))
                     ->success()
                     ->send()
                 ;

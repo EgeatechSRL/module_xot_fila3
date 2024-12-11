@@ -118,10 +118,9 @@ trait HasXotTable
     {
         return [
             Actions\CreateAction::make()
-                ->label('')
+                ->hiddenLabel()
                 ->tooltip(static::trans('actions.create.tooltip'))
                 ->icon('heroicon-o-plus')
-                // ->iconButton()
                 ->button(),
         ];
     }
@@ -243,8 +242,7 @@ trait HasXotTable
                 /*->label('')
 
                 */
-                ->iconButton()
-            ;
+                ->iconButton();
         }
 
         if ($this->shouldShowDetachAction()) {
@@ -268,7 +266,7 @@ trait HasXotTable
     {
         return [
             DeleteBulkAction::make()
-                ->label('')
+                ->hiddenLabel()
                 ->tooltip(__('user::actions.delete_selected'))
                 ->icon('heroicon-o-trash')
                 ->color('danger')
@@ -304,7 +302,7 @@ trait HasXotTable
         // }
 
         // ->model($this->getMountedTableActionRecord() ?? $this->getTable()->getModel())
-        throw new \Exception('No model found in '.class_basename(__CLASS__).'::'.__FUNCTION__);
+        throw new \Exception('No model found in ' . class_basename(__CLASS__) . '::' . __FUNCTION__);
     }
 
     /**
@@ -339,7 +337,7 @@ trait HasXotTable
     protected function configureEmptyTable(Table $table): Table
     {
         return $table
-            ->modifyQueryUsing(fn (Builder $query) => $query->whereNull('id'))
+            ->modifyQueryUsing(fn(Builder $query) => $query->whereNull('id'))
             ->columns([
                 TextColumn::make('message')
                     ->label(__('user::fields.message.label'))
