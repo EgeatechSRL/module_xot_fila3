@@ -16,7 +16,7 @@ class RegisterBladeComponentsAction
     public function execute(string $path, string $namespace, string $prefix = ''): void
     {
         $comps = app(GetComponentsAction::class)
-            ->execute($path, $namespace.'\View\Components', $prefix);
+            ->execute($path, $namespace . '\View\Components', $prefix);
 
         if (0 == $comps->count()) {
             return;
@@ -25,7 +25,9 @@ class RegisterBladeComponentsAction
             if (! $comp instanceof ComponentFileData) {
                 continue;
             }
-            Blade::component($comp->name, $comp->ns);
+            if ($comp->ns != null) {
+                Blade::component($comp->name, $comp->ns);
+            }
         }
     }
 }
