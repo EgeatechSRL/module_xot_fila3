@@ -38,6 +38,8 @@ trait HasXotTable
     protected static bool $canReplicate = false;
     protected static bool $canView = true;
     protected static bool $canEdit = true;
+    protected string $defaultOrderingColumn = 'created_at';
+    protected string $defaultOrderingDirection = 'desc';
 
     /**
      * @return array<Action|BulkAction|ActionGroup>
@@ -189,15 +191,12 @@ trait HasXotTable
             ->persistFiltersInSession()
             ->actions($this->getTableActions())
             ->bulkActions($this->getTableBulkActions())
-            ->actionsPosition(ActionsPosition::BeforeColumns)
             ->emptyStateActions($this->getTableEmptyStateActions())
-            ->striped();
-        /*
-        ->defaultSort(
-            column: 'created_at',
-            direction: 'Desc',
-        )
-        */
+            ->striped()
+            ->defaultSort(
+                column: $this->defaultOrderingColumn,
+                direction: $this->defaultOrderingDirection,
+            );
     }
 
     /**
@@ -238,10 +237,8 @@ trait HasXotTable
         }
         if (! $this->shouldShowDetachAction()) {
             $actions['delete'] = Tables\Actions\DeleteAction::make()
+                ->hiddenLabel()
                 ->tooltip(__('user::actions.delete'))
-                /*->label('')
-
-                */
                 ->iconButton();
         }
 
