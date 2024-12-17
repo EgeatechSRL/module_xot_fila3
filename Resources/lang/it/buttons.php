@@ -10,7 +10,7 @@ return [
                 'change_password' => 'Cambia password',
                 'deactivate' => 'Disattiva',
                 'delete_permanently' => 'Elimina definitivamente',
-                'login_as' => 'Login As :user',
+                'login_as' => 'Login come :user',
                 'resend_email' => 'Reinvia e-mail di conferma',
                 'restore_user' => 'Ripristina utente',
             ],
@@ -18,8 +18,8 @@ return [
     ],
     'emails' => [
         'auth' => [
-            'confirm_account' => 'Confirm Account',
-            'reset_password' => 'Reset Password',
+            'confirm_account' => 'Conferma Account',
+            'reset_password' => 'Resetta Password',
         ],
     ],
     'general' => [
@@ -29,7 +29,7 @@ return [
             'delete' => 'Elimina',
             'edit' => 'Modifica',
             'update' => 'Aggiorna',
-            'view' => 'View',
+            'view' => 'Visualizza',
         ],
         'save' => 'Salva',
         'view' => 'Visualizza',
