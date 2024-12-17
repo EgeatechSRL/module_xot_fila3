@@ -189,6 +189,7 @@ trait HasXotTable
             ->filtersLayout(FiltersLayout::AboveContent)
             ->filtersFormColumns($this->getTableFiltersFormColumns())
             ->persistFiltersInSession()
+            ->persistSortInSession()
             ->actions($this->getTableActions())
             ->bulkActions($this->getTableBulkActions())
             ->emptyStateActions($this->getTableEmptyStateActions())
