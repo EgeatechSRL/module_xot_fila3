@@ -186,7 +186,7 @@ trait HasXotTable
             ->contentGrid($this->layoutView->getTableContentGrid())
             ->headerActions($this->getTableHeaderActions())
             ->filters($this->getTableFilters())
-            ->filtersLayout(FiltersLayout::AboveContent)
+            ->filtersLayout($this->getTableFiltersLayout())
             ->filtersFormColumns($this->getTableFiltersFormColumns())
             ->persistFiltersInSession()
             ->persistSortInSession()
@@ -208,6 +208,16 @@ trait HasXotTable
     protected function getTableFilters(): array
     {
         return []; // Implement any specific filters needed
+    }
+
+    /**
+     * Define default table filters layout.
+     *
+     * @return array<Tables\Filters\FiltersLayout|Closure|null>
+     */
+    protected function getTableFiltersLayout(): FiltersLayout
+    {
+        return FiltersLayout::AboveContent;
     }
 
     /**
