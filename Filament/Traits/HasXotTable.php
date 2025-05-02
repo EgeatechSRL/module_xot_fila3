@@ -13,7 +13,6 @@ use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Enums\ActionsPosition;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\BaseFilter;
 use Filament\Tables\Filters\TernaryFilter;
@@ -38,6 +37,7 @@ trait HasXotTable
     protected static bool $canReplicate = false;
     protected static bool $canView = true;
     protected static bool $canEdit = true;
+    protected static bool $canDelete = true;
     protected string $defaultOrderingColumn = 'created_at';
     protected string $defaultOrderingDirection = 'desc';
 
@@ -109,6 +109,11 @@ trait HasXotTable
     protected function shouldShowEditAction(): bool
     {
         return static::$canEdit;
+    }
+
+    protected function shouldShowDeleteAction(): bool
+    {
+        return static::$canDelete;
     }
 
     /**
@@ -246,12 +251,6 @@ trait HasXotTable
                 ->tooltip(__('user::actions.replicate'))
                 ->iconButton();
         }
-        if (! $this->shouldShowDetachAction()) {
-            $actions['delete'] = Tables\Actions\DeleteAction::make()
-                ->hiddenLabel()
-                ->tooltip(__('user::actions.delete'))
-                ->iconButton();
-        }
 
         if ($this->shouldShowDetachAction()) {
             $actions['detach'] = Tables\Actions\DetachAction::make()
@@ -260,6 +259,11 @@ trait HasXotTable
                 ->icon('heroicon-o-link-slash')
                 ->color('danger')
                 ->requiresConfirmation();
+        } elseif ($this->shouldShowDeleteAction()) {
+            $actions['delete'] = Tables\Actions\DeleteAction::make()
+                ->hiddenLabel()
+                ->tooltip(__('user::actions.delete'))
+                ->iconButton();
         }
 
         return $actions;
@@ -310,7 +314,7 @@ trait HasXotTable
         // }
 
         // ->model($this->getMountedTableActionRecord() ?? $this->getTable()->getModel())
-        throw new \Exception('No model found in ' . class_basename(__CLASS__) . '::' . __FUNCTION__);
+        throw new \Exception('No model found in '.class_basename(__CLASS__).'::'.__FUNCTION__);
     }
 
     /**
@@ -345,7 +349,7 @@ trait HasXotTable
     protected function configureEmptyTable(Table $table): Table
     {
         return $table
-            ->modifyQueryUsing(fn(Builder $query) => $query->whereNull('id'))
+            ->modifyQueryUsing(fn (Builder $query) => $query->whereNull('id'))
             ->columns([
                 TextColumn::make('message')
                     ->label(__('user::fields.message.label'))
