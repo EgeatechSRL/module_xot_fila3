@@ -8,10 +8,7 @@ declare(strict_types=1);
 
 namespace Modules\Xot\Contracts;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Laravel\Passport\Contracts\ScopeAuthorizable;
-use Laravel\Passport\PersonalAccessTokenResult;
 use Laravel\Passport\Token;
 use Laravel\Passport\TransientToken;
 
@@ -46,17 +43,17 @@ interface PassportHasApiTokensContract
     /**
      * Determine if the current API token has a given scope.
      */
-    public function tokenCan(string $scope): bool;
+    public function tokenCan($scope);
 
     /**
      * Create a new personal access token for the user.
      */
-    public function createToken(string $name, array $scopes = []): PersonalAccessTokenResult;
+    public function createToken($name, array $scopes = []);
 
     /**
      * Set the current access token for the user.
      *
      * @return $this
      */
-    public function withAccessToken(?ScopeAuthorizable $accessToken): static;
+    public function withAccessToken(Token|TransientToken $accessToken);
 }
