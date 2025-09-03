@@ -8,7 +8,6 @@ use Illuminate\Support\Str;
 use Filament\Facades\Filament;
 use Modules\Xot\Datas\XotData;
 use Illuminate\Support\HtmlString;
-use Illuminate\Support\Facades\Auth;
 use Spatie\LaravelPackageTools\Package;
 use Nwidart\Modules\LaravelModulesServiceProvider;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -35,11 +34,16 @@ class CoolModulesServiceProvider extends PackageServiceProvider
             foreach (Filament::getPanels() as $panel) {
                 $id = Str::of($panel->getId());
                 if ($id->contains('::')) {
-                    $title = $id->replace(['::', '-'], [' ', ' '])->title()->toString();
                     $panel
                         ->renderHook(
                             'panels::sidebar.nav.start',
-                            fn () => new HtmlString("<h2 class='m-2 p-2 font-black text-xl'>$title</h2>"),
+                            function () use ($id){
+                                if (!XotData::make()->isSuperAdmin()) {
+                                    return '';
+                                }
+                                $title = $id->replace(['::', '-'], [' ', ' '])->title()->toString();
+                                return new HtmlString("<h2 class='m-2 p-2 font-black text-xl'>$title</h2>");
+                            }
                         )
                         ->renderHook(
                             'panels::sidebar.nav.end',
@@ -47,7 +51,7 @@ class CoolModulesServiceProvider extends PackageServiceProvider
                                 if (!XotData::make()->isSuperAdmin()) {
                                     return '';
                                 }
- 
+                                
                                 return new HtmlString(
                                     '<a href="'.url('/admin').'" class="m-2 p-2 mt-4 inline-flex gap-2 block rounded-lg font-bold bg-gray-500/10">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
