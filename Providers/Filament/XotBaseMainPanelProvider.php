@@ -47,7 +47,8 @@ abstract class XotBaseMainPanelProvider extends PanelProvider
         // ->profile(MyProfilePage::class, false)
         // ->viteTheme('resources/css/filament/admin/theme.css')
 
-        app(ApplyMetatagToPanelAction::class)->execute(panel: $panel);
+        $panel = app(ApplyMetatagToPanelAction::class)->execute($panel);
+        // app(ApplyMetatagToPanelAction::class)->execute(panel: $panel);
         // ---------------------
         $panel->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
